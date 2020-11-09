@@ -1,0 +1,57 @@
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
+        </dependencySet>
+    </dependencySets>
+    <files>
+        <!-- README -->
+        <file>
+            <source>../README.md</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+    </files>
+
+    <fileSets>
+        <!-- bin -->
+        <fileSet>
+            <directory>./src/main/flinkplus-bin/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>run.sh</include>
+                <include>run.bat</include>
+            </includes>
+        </fileSet>
+
+        <!-- config -->
+        <fileSet>
+            <directory>../flinkplus-web/target/classes</directory>
+            <outputDirectory>/config</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>application.yml</include>
+                <include>application-local.yml</include>
+                <include>application-test.yml</include>
+            </includes>
+        </fileSet>
+
+        <!-- module -->
+        <fileSet>
+            <directory>../module</directory>
+            <outputDirectory>/module</outputDirectory>
+        </fileSet>
+
+        <!-- docs -->
+        <fileSet>
+            <directory>../docs</directory>
+            <outputDirectory>/docs</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

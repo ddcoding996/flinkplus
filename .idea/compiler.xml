@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="flinkplus-dao" />
+        <module name="flinkplus-common" />
+        <module name="flinkplus-schedule" />
+        <module name="flinkplus-web" />
+        <module name="flinkplus-http" />
+        <module name="flinkplus-dist" />
+        <module name="flinkplus-sql-core" />
+        <module name="flinkplus-model" />
+        <module name="flinkplus-service" />
+        <module name="flinkplus-sql-model" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

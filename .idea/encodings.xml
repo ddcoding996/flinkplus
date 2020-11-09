@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-dist" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-http" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-schedule" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-sql/flinkplus-sql-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-sql/flinkplus-sql-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/flinkplus-web" charset="UTF-8" />
+  </component>
+</project>

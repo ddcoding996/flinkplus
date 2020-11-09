@@ -1,0 +1,57 @@
+server:
+  port: 8888
+
+logging:
+  dir: log
+  config: classpath:config/logback.xml
+  instance:
+    dir: log/intance_log
+    pattern: /job_id_%s/instance_id_%s.log
+
+spring:
+  jackson:
+    mapper:
+      propagate-transient-marker: true
+  thymeleaf:
+    prefix: "classpath:/static/"
+  datasource:
+    url: jdbc:mysql://39.105.175.66:31101/plink?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Plink1234567
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.ddcoding.flinkplus.dao.conf.DataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000t
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.ddcoding.flinkplus.model
+  configLocation: classpath:config/mybatis-config.xml
+
+
+#热部署组件
+devtools:
+  livereload:
+    enabled: true #是否支持livereload
+    port: 8888
+  restart:
+    enabled: true #是否支持热部署
+
+kerberos:
+  keytab:
+  principal:
+
+#'yarn' or 'standalone'
+cluster:
+  mode: yarn

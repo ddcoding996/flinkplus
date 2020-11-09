@@ -1,0 +1,14 @@
+package com.ddcoding.flinkplus.model.exception;
+
+/**
+ * @author: ddcoding
+ * @date: 2020/1/19
+ */
+public class PlinkMessageException extends PlinkRuntimeException {
+    private static final long serialVersionUID = -1L;
+
+    public PlinkMessageException(String message) {
+        super(message);
+    }
+
+}
