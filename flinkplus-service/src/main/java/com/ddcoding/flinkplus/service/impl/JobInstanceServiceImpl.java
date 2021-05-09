@@ -4,8 +4,8 @@ import com.ddcoding.flinkplus.common.util.FileUtil;
 import com.ddcoding.flinkplus.dao.mapper.JobInstanceMapper;
 import com.ddcoding.flinkplus.dao.mapper.JobMapper;
 import com.ddcoding.flinkplus.model.dto.JobInstanceDTO;
-import com.ddcoding.flinkplus.model.exception.PlinkMessageException;
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusMessageException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import com.ddcoding.flinkplus.model.pojo.Job;
 import com.ddcoding.flinkplus.model.pojo.JobInstance;
 import com.ddcoding.flinkplus.model.req.PageReq;
@@ -59,10 +59,10 @@ public class JobInstanceServiceImpl implements JobInstanceService {
     public void updateJobAndInstanceStatus(JobInstance jobInstance) {
         int jobInstanceRowCnt = jobInstanceMapper.updateByPrimaryKeySelective(jobInstance);
         if (jobInstanceRowCnt == 0) {
-            throw new PlinkMessageException("update job instance status fail");
+            throw new FlinkPlusMessageException("update job instance status fail");
         }
         if (jobInstance.getJobId() == null) {
-            throw new PlinkMessageException("update job instance status fail,jobId is null");
+            throw new FlinkPlusMessageException("update job instance status fail,jobId is null");
         }
         Job job = new Job();
         job.setId(jobInstance.getJobId());
@@ -72,7 +72,7 @@ public class JobInstanceServiceImpl implements JobInstanceService {
         job.setLastStopTime(jobInstance.getStopTime());
         int jobRowCnt = jobMapper.updateByPrimaryKeySelective(job);
         if (jobRowCnt == 0) {
-            throw new PlinkMessageException("update job status fail");
+            throw new FlinkPlusMessageException("update job status fail");
         }
     }
 
@@ -89,7 +89,7 @@ public class JobInstanceServiceImpl implements JobInstanceService {
         } catch (FileNotFoundException e) {
             return null;
         } catch (IOException e) {
-            throw new PlinkRuntimeException("read instance start log error", e);
+            throw new FlinkPlusRuntimeException("read instance start log error", e);
         }
     }
 

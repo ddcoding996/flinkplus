@@ -1,7 +1,7 @@
 package com.ddcoding.flinkplus.common.util;
 
-import com.ddcoding.flinkplus.model.exception.PlinkException;
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.GlobalConfiguration;
@@ -33,32 +33,32 @@ public class FlinkConfigUtil {
     private static Configuration configuration;
 
 
-    public static String getFlinkHome() throws PlinkException {
+    public static String getFlinkHome() throws FlinkPlusException {
         String flinkHome = System.getenv("FLINK_HOME");
         if (StringUtils.isBlank(flinkHome)) {
-            throw new PlinkException("FLINK_HOME is not set!");
+            throw new FlinkPlusException("FLINK_HOME is not set!");
         }
         return flinkHome;
     }
 
-    private static synchronized void loadConfiguration() throws PlinkException {
+    private static synchronized void loadConfiguration() throws FlinkPlusException {
         if (configuration == null) {
             configuration = GlobalConfiguration.loadConfiguration(getFlinkHome() + CONF_SUFFIX);
         }
     }
 
-    public static synchronized Configuration getConfiguration() throws PlinkException {
+    public static synchronized Configuration getConfiguration() throws FlinkPlusException {
         if (configuration == null) {
             loadConfiguration();
         }
         return configuration;
     }
 
-    public static String getRestAddress() throws PlinkException {
+    public static String getRestAddress() throws FlinkPlusException {
         return "http://" + getConfiguration().getValue(RestOptions.ADDRESS) + ":" + getConfiguration().getValue(RestOptions.PORT);
     }
 
-    public static String getFlinkVersion() throws PlinkException {
+    public static String getFlinkVersion() throws FlinkPlusException {
         if (cache.containsKey(VERSION_CACHE_KEY)) {
             return cache.get(VERSION_CACHE_KEY).toString();
         }
@@ -83,10 +83,10 @@ public class FlinkConfigUtil {
                     return flinkVersion.toString();
                 }
             }
-        } catch (PlinkException e) {
+        } catch (FlinkPlusException e) {
             throw e;
         } catch (Exception e) {
-            throw new PlinkRuntimeException("get flink version error", e);
+            throw new FlinkPlusRuntimeException("get flink version error", e);
         }
         return null;
     }

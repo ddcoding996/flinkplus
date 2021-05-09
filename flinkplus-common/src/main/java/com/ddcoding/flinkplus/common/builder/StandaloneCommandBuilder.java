@@ -3,7 +3,7 @@ package com.ddcoding.flinkplus.common.builder;
 import com.ddcoding.flinkplus.common.util.FlinkConfigUtil;
 import com.ddcoding.flinkplus.model.common.FlinkConfig;
 import com.ddcoding.flinkplus.model.common.FlinkSubmitOptions;
-import com.ddcoding.flinkplus.model.exception.PlinkException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.util.Preconditions;
 
@@ -35,7 +35,7 @@ public class StandaloneCommandBuilder implements FlinkShellCommandBuilder {
      * @return
      */
     @Override
-    public String buildRunCommand(FlinkSubmitOptions flinkSubmitOptions) throws PlinkException {
+    public String buildRunCommand(FlinkSubmitOptions flinkSubmitOptions) throws FlinkPlusException {
         FlinkConfig flinkConfig = flinkSubmitOptions.getFlinkConfig();
         StringBuilder builder = new StringBuilder();
         builder.append(format(runScript, FlinkConfigUtil.getFlinkHome())).append(detached);

@@ -10,7 +10,7 @@ import java.util.Map;
  * @author: ddcoding
  * @date: 2020/9/24
  */
-public interface PlinkSqlService {
+public interface FlinkSqlService {
 
     SqlParseInfo parse(String sql);
 

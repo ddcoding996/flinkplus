@@ -6,7 +6,7 @@ import com.ddcoding.flinkplus.model.common.FlinkConfig;
 import com.ddcoding.flinkplus.model.dto.JobDTO;
 import com.ddcoding.flinkplus.model.dto.JobInstanceDTO;
 import com.ddcoding.flinkplus.model.enums.JobInstanceStatusEnum;
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import com.ddcoding.flinkplus.model.pojo.Job;
 import com.ddcoding.flinkplus.model.pojo.JobInstance;
 import com.ddcoding.flinkplus.service.FlinkClusterService;
@@ -84,7 +84,7 @@ public class JobInstanceTransform implements Transform<JobInstanceDTO, JobInstan
                 try {
                     jobInstanceDTO.setUiAddress(defaultFlinkClusterService.getJobUiAddress(jobInstanceDTO));
                 } catch (Exception e) {
-                    throw new PlinkRuntimeException(e);
+                    throw new FlinkPlusRuntimeException(e);
                 }
             }
 

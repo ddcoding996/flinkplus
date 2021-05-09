@@ -7,7 +7,7 @@ import com.ddcoding.flinkplus.model.dto.JobInstanceDTO;
 import com.ddcoding.flinkplus.model.enums.JobClientVersionEnum;
 import com.ddcoding.flinkplus.model.enums.JobInstanceStatusEnum;
 import com.ddcoding.flinkplus.model.enums.JobTypeEnum;
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import com.ddcoding.flinkplus.model.pojo.Job;
 import com.ddcoding.flinkplus.service.FlinkClusterService;
 import com.ddcoding.flinkplus.service.factory.FlinkClusterServiceFactory;
@@ -81,7 +81,7 @@ public class JobTransform implements Transform<JobDTO, Job> {
                     jobInstanceDTO.setStatus(job.getLastStatus());
                     jobDTO.setLastUiAddress(defaultFlinkClusterService.getJobUiAddress(jobInstanceDTO));
                 } catch (Exception e) {
-                    throw new PlinkRuntimeException(e);
+                    throw new FlinkPlusRuntimeException(e);
                 }
             }
             //设置权限

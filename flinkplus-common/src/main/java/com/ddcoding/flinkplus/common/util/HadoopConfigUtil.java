@@ -1,6 +1,6 @@
 package com.ddcoding.flinkplus.common.util;
 
-import com.ddcoding.flinkplus.model.exception.PlinkException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,10 +23,10 @@ public class HadoopConfigUtil {
     private static final Map<String, Configuration> configurationMap = new ConcurrentHashMap<>();
 
 
-    public static String getHadoopHome() throws PlinkException {
+    public static String getHadoopHome() throws FlinkPlusException {
         String hadoopHome = System.getenv("HADOOP_HOME");
         if (StringUtils.isBlank(hadoopHome)) {
-            throw new PlinkException("HADOOP_HOME is not set!");
+            throw new FlinkPlusException("HADOOP_HOME is not set!");
         }
         return hadoopHome;
     }
@@ -45,11 +45,11 @@ public class HadoopConfigUtil {
         }
     }
 
-    public static synchronized Configuration getConfiguration() throws PlinkException {
+    public static synchronized Configuration getConfiguration() throws FlinkPlusException {
         return getConfiguration(getHadoopHome());
     }
 
-    public static synchronized Configuration getConfiguration(String hadoopHome) throws PlinkException {
+    public static synchronized Configuration getConfiguration(String hadoopHome) throws FlinkPlusException {
         if (!configurationMap.containsKey(hadoopHome)) {
             loadConfiguration(hadoopHome);
         }

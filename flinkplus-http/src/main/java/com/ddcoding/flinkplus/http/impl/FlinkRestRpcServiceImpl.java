@@ -3,7 +3,7 @@ package com.ddcoding.flinkplus.http.impl;
 import com.ddcoding.flinkplus.common.util.FlinkConfigUtil;
 import com.ddcoding.flinkplus.common.util.JsonUtil;
 import com.ddcoding.flinkplus.http.FlinkRestRpcService;
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -38,7 +38,7 @@ public class FlinkRestRpcServiceImpl implements FlinkRestRpcService {
             String resJson = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
             return JsonUtil.parseObject(resJson).get("state").textValue();
         } catch (Exception e) {
-            throw new PlinkRuntimeException("queryJobStatus error", e);
+            throw new FlinkPlusRuntimeException("queryJobStatus error", e);
         } finally {
             if (httpGet != null) {
                 httpGet.releaseConnection();
@@ -55,10 +55,10 @@ public class FlinkRestRpcServiceImpl implements FlinkRestRpcService {
             String resJson = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
             String errors = JsonUtil.parseObject(resJson).get("errors").textValue();
             if (errors != null) {
-                throw new PlinkRuntimeException("stopJob error:" + errors);
+                throw new FlinkPlusRuntimeException("stopJob error:" + errors);
             }
         } catch (Exception e) {
-            throw new PlinkRuntimeException("stopJob error", e);
+            throw new FlinkPlusRuntimeException("stopJob error", e);
         } finally {
             if (httpPatch != null) {
                 httpPatch.releaseConnection();
@@ -71,7 +71,7 @@ public class FlinkRestRpcServiceImpl implements FlinkRestRpcService {
         try {
             return String.format(FlinkConfigUtil.getRestAddress() + JOB_UI_ADDRESS, jobId);
         } catch (Exception e) {
-            throw new PlinkRuntimeException("getJobUiAddress error", e);
+            throw new FlinkPlusRuntimeException("getJobUiAddress error", e);
         }
     }
 

@@ -4,22 +4,22 @@ package com.ddcoding.flinkplus.model.exception;
  * @author: ddcoding
  * @date: 2020/1/19
  */
-public class PlinkRuntimeException extends RuntimeException {
+public class FlinkPlusRuntimeException extends RuntimeException {
     private static final long serialVersionUID = -1L;
 
-    public PlinkRuntimeException() {
+    public FlinkPlusRuntimeException() {
         super();
     }
 
-    public PlinkRuntimeException(String message) {
+    public FlinkPlusRuntimeException(String message) {
         super(message);
     }
 
-    public PlinkRuntimeException(String message, Throwable cause) {
+    public FlinkPlusRuntimeException(String message, Throwable cause) {
         super(message + ":" + cause.getMessage(), cause);
     }
 
-    public PlinkRuntimeException(Throwable cause) {
+    public FlinkPlusRuntimeException(Throwable cause) {
         super(cause.getMessage(), cause);
     }
 

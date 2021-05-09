@@ -3,7 +3,7 @@ package com.ddcoding.flinkplus.schedule.task;
 import com.ddcoding.flinkplus.common.util.LoggerUtil;
 import com.ddcoding.flinkplus.model.dto.JobInstanceDTO;
 import com.ddcoding.flinkplus.model.enums.JobInstanceStatusEnum;
-import com.ddcoding.flinkplus.model.exception.PlinkMessageException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusMessageException;
 import com.ddcoding.flinkplus.model.pojo.JobInstance;
 import com.ddcoding.flinkplus.service.FlinkClusterService;
 import com.ddcoding.flinkplus.service.JobInstanceService;
@@ -55,7 +55,7 @@ public class SubmitJobTask {
                 //在此处提交flink任务
                 appId = defaultFlinkClusterService.submitJob(jobInstanceDTO, logFile);
                 if (StringUtils.isBlank(appId)) {
-                    throw new PlinkMessageException("appId is empty");
+                    throw new FlinkPlusMessageException("appId is empty");
                 }
                 jobInstanceSubmitted.setAppId(appId);
                 //提交成功状态为 '运行中'

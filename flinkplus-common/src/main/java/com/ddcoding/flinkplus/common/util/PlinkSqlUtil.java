@@ -1,6 +1,6 @@
 package com.ddcoding.flinkplus.common.util;
 
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import com.ddcoding.flinkplus.sql.model.SqlDebugConfig;
 import com.ddcoding.flinkplus.sql.model.sqlparse.SqlParseInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class PlinkSqlUtil {
             //flinkplus sql core jar
             File sqlCoreJarFile = new File(plinkHome + SQL_JAR_FILE);
             if (!sqlCoreJarFile.exists()) {
-                throw new PlinkRuntimeException("sql core jar file not exist!,path=" + sqlCoreJarFile.getAbsolutePath() +
+                throw new FlinkPlusRuntimeException("sql core jar file not exist!,path=" + sqlCoreJarFile.getAbsolutePath() +
                         ",you can try 'mvn package' in flinkplus-sql module");
             }
             sqlClassPathUrlList.add(sqlCoreJarFile.toURI().toURL());
@@ -46,7 +46,7 @@ public class PlinkSqlUtil {
             //flinkplus sql shape jars
             File sqlShapeDir = new File(plinkHome + SQL_SHAPE_DIR_PATH);
             if (!sqlShapeDir.exists()) {
-                throw new PlinkRuntimeException("sql shape dir not exist,path=" + sqlShapeDir.getAbsolutePath() +
+                throw new FlinkPlusRuntimeException("sql shape dir not exist,path=" + sqlShapeDir.getAbsolutePath() +
                         ",you can try 'mvn package' in flinkplus-sql module");
             }
             File[] sqlShapeJars = sqlShapeDir.listFiles();
@@ -101,9 +101,9 @@ public class PlinkSqlUtil {
             return newRes;
 
         } catch (InvocationTargetException e) {
-            throw new PlinkRuntimeException("sql parse error", e.getTargetException());
+            throw new FlinkPlusRuntimeException("sql parse error", e.getTargetException());
         } catch (Exception e) {
-            throw new PlinkRuntimeException("sql parse error", e);
+            throw new FlinkPlusRuntimeException("sql parse error", e);
         } finally {
             Thread.currentThread().setContextClassLoader(originClassLoader);
         }
@@ -127,9 +127,9 @@ public class PlinkSqlUtil {
             Object debugRes = plinkSqlParserClass.getMethod("debug", SqlDebugConfigClass).invoke(null, internal);
             return (Map<String, List<String>>) debugRes;
         } catch (InvocationTargetException e) {
-            throw new PlinkRuntimeException("sql debug error", e.getTargetException());
+            throw new FlinkPlusRuntimeException("sql debug error", e.getTargetException());
         } catch (Exception e) {
-            throw new PlinkRuntimeException("sql debug error", e);
+            throw new FlinkPlusRuntimeException("sql debug error", e);
         } finally {
             Thread.currentThread().setContextClassLoader(originClassLoader);
         }

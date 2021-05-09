@@ -1,6 +1,6 @@
 package com.ddcoding.flinkplus.web.handler;
 
-import com.ddcoding.flinkplus.model.exception.PlinkMessageException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusMessageException;
 import com.ddcoding.flinkplus.model.exception.ValidationException;
 import com.ddcoding.flinkplus.model.resp.Result;
 import com.ddcoding.flinkplus.model.resp.ResultCode;
@@ -23,7 +23,7 @@ import java.util.List;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler({ValidationException.class, PlinkMessageException.class})
+    @ExceptionHandler({ValidationException.class, FlinkPlusMessageException.class})
     public Result handlerValidationException(ValidationException exception) {
         return new Result(ResultCode.FAILURE, exception.getMessage());
     }

@@ -1,7 +1,7 @@
 package com.ddcoding.flinkplus.service.impl;
 
 import com.ddcoding.flinkplus.common.util.PlinkSqlUtil;
-import com.ddcoding.flinkplus.service.PlinkSqlService;
+import com.ddcoding.flinkplus.service.FlinkSqlService;
 import com.ddcoding.flinkplus.sql.model.SqlDebugConfig;
 import com.ddcoding.flinkplus.sql.model.sqlparse.SqlParseInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class PlinkSqlServiceImpl implements PlinkSqlService {
+public class FlinkSqlServiceImpl implements FlinkSqlService {
 
     /**
      * PlinkSqlParser.create(sql).getSqlParseInfo()

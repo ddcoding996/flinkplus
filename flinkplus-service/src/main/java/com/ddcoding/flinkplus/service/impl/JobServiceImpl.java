@@ -6,8 +6,8 @@ import com.ddcoding.flinkplus.dao.mapper.JobInstanceMapper;
 import com.ddcoding.flinkplus.dao.mapper.JobMapper;
 import com.ddcoding.flinkplus.model.dto.JobDTO;
 import com.ddcoding.flinkplus.model.enums.JobInstanceStatusEnum;
-import com.ddcoding.flinkplus.model.exception.PlinkMessageException;
-import com.ddcoding.flinkplus.model.exception.PlinkRuntimeException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusMessageException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusRuntimeException;
 import com.ddcoding.flinkplus.model.pojo.Job;
 import com.ddcoding.flinkplus.model.pojo.JobInstance;
 import com.ddcoding.flinkplus.model.req.PageReq;
@@ -61,7 +61,7 @@ public class JobServiceImpl implements JobService {
         try {
             jobMapper.insertSelective(job);
         } catch (DuplicateKeyException e) {
-            throw new PlinkMessageException("job name is duplicate");
+            throw new FlinkPlusMessageException("job name is duplicate");
         }
         return jobTransform.transform(jobDTO);
     }
@@ -70,11 +70,11 @@ public class JobServiceImpl implements JobService {
     @Override
     public void deleteJob(Long jobId) {
         if (jobId == null) {
-            throw new PlinkMessageException("jobId is null");
+            throw new FlinkPlusMessageException("jobId is null");
         }
         int rowCnt = jobMapper.deleteByPrimaryKey(jobId);
         if (rowCnt == 0) {
-            throw new PlinkMessageException("delete job fail");
+            throw new FlinkPlusMessageException("delete job fail");
         }
         //级联删除任务对应的实例信息
         JobInstance jobInstance = new JobInstance();
@@ -85,7 +85,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void deleteJobs(List<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
-            throw new PlinkMessageException("idList is empty");
+            throw new FlinkPlusMessageException("idList is empty");
         }
         idList.forEach(id -> jobMapper.deleteByPrimaryKey(id));
     }
@@ -93,26 +93,26 @@ public class JobServiceImpl implements JobService {
     @Override
     public void updateJob(JobDTO jobDTO) {
         if (jobDTO == null) {
-            throw new PlinkMessageException("job is null");
+            throw new FlinkPlusMessageException("job is null");
         }
         if (jobDTO.getId() == null) {
-            throw new PlinkMessageException("jobId is null");
+            throw new FlinkPlusMessageException("jobId is null");
         }
         Job job = jobTransform.inverseTransform(jobDTO);
         int rowCnt = jobMapper.updateByPrimaryKeySelective(job);
         if (rowCnt == 0) {
-            throw new PlinkMessageException("update job fail");
+            throw new FlinkPlusMessageException("update job fail");
         }
     }
 
     @Override
     public JobDTO queryJob(Long jobId) {
         if (jobId == null) {
-            throw new PlinkMessageException("jobId is null");
+            throw new FlinkPlusMessageException("jobId is null");
         }
         Job job = jobMapper.selectByPrimaryKey(jobId);
         if (job == null) {
-            throw new PlinkMessageException("job not found");
+            throw new FlinkPlusMessageException("job not found");
         }
         return jobTransform.transform(job);
     }
@@ -131,20 +131,20 @@ public class JobServiceImpl implements JobService {
     @Override
     public void uploadJar(Long jobId, MultipartFile file) {
         if (file == null || file.isEmpty()) {
-            throw new PlinkMessageException("the file is empty");
+            throw new FlinkPlusMessageException("the file is empty");
         }
         String filename = file.getOriginalFilename();
         File uploadPath = new File(UploadUtil.getJobJarsPath(jobId));
         if (!uploadPath.exists()) {
             if (!uploadPath.mkdirs()) {
-                throw new PlinkMessageException("make upload dir fail!");
+                throw new FlinkPlusMessageException("make upload dir fail!");
             }
         }
         File targetFile = new File(uploadPath, filename);
         try {
             file.transferTo(targetFile);
         } catch (IOException e) {
-            throw new PlinkRuntimeException("file upload fail!", e);
+            throw new FlinkPlusRuntimeException("file upload fail!", e);
         }
     }
 
@@ -170,14 +170,14 @@ public class JobServiceImpl implements JobService {
     public void startJob(Long jobId) {
         Job job = jobMapper.selectByPrimaryKey(jobId);
         if (job == null) {
-            throw new PlinkMessageException("jobId is not exist");
+            throw new FlinkPlusMessageException("jobId is not exist");
         }
         JobDTO jobDTO = jobTransform.transform(job);
         ValidatorUtil.validate(jobDTO);
         if (jobDTO.getLastStatus() != null) {
             JobInstanceStatusEnum jobInstanceStatusEnum = JobInstanceStatusEnum.getEnum(jobDTO.getLastStatus());
             if (jobInstanceStatusEnum != null && !jobInstanceStatusEnum.isFinalState()) {
-                throw new PlinkMessageException(jobInstanceStatusEnum.getDesc() + " status can not start");
+                throw new FlinkPlusMessageException(jobInstanceStatusEnum.getDesc() + " status can not start");
             }
         }
         JobInstance jobInstance = new JobInstance();
@@ -187,7 +187,7 @@ public class JobServiceImpl implements JobService {
         jobInstance.setStatus(JobInstanceStatusEnum.WAITING_START.getValue());
         int rowCnt = jobInstanceMapper.insertSelective(jobInstance);
         if (rowCnt == 0) {
-            throw new PlinkMessageException("insert job instance fail");
+            throw new FlinkPlusMessageException("insert job instance fail");
         }
         Job newJob = new Job();
         newJob.setLastInstanceId(jobInstance.getId());
@@ -195,7 +195,7 @@ public class JobServiceImpl implements JobService {
         newJob.setLastStatus(JobInstanceStatusEnum.WAITING_START.getValue());
         int jobUpdateRowCnt = jobMapper.updateByPrimaryKeySelective(newJob);
         if (jobUpdateRowCnt == 0) {
-            throw new PlinkMessageException("update job status fail");
+            throw new FlinkPlusMessageException("update job status fail");
         }
     }
 
@@ -203,7 +203,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void startJobs(List<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
-            throw new PlinkMessageException("idList is empty");
+            throw new FlinkPlusMessageException("idList is empty");
         }
         idList.forEach(this::startJob);
     }
@@ -212,27 +212,27 @@ public class JobServiceImpl implements JobService {
     @Override
     public void stopJob(Long jobId) {
         if (jobId == null) {
-            throw new PlinkMessageException("jobId is null");
+            throw new FlinkPlusMessageException("jobId is null");
         }
         Job job = jobMapper.selectByPrimaryKey(jobId);
         if (job == null) {
-            throw new PlinkMessageException("jobId is not exist");
+            throw new FlinkPlusMessageException("jobId is not exist");
         }
         Long lastInstanceId = job.getLastInstanceId();
         if (lastInstanceId == null) {
-            throw new PlinkMessageException("this job no instance information");
+            throw new FlinkPlusMessageException("this job no instance information");
         }
         if (!JobInstanceStatusEnum.RUNNING.equals(JobInstanceStatusEnum.getEnum(job.getLastStatus()))) {
-            throw new PlinkMessageException("instance is not running");
+            throw new FlinkPlusMessageException("instance is not running");
         }
         JobInstance jobInstance = jobInstanceMapper.selectByPrimaryKey(lastInstanceId);
         if (jobInstance == null) {
-            throw new PlinkMessageException("instance not found");
+            throw new FlinkPlusMessageException("instance not found");
         }
         try {
             flinkClusterServiceFactory.getDefaultFlinkClusterService().stopJob(jobInstance.getAppId());
         } catch (Exception e) {
-            throw new PlinkRuntimeException("stop job fail", e);
+            throw new FlinkPlusRuntimeException("stop job fail", e);
         }
         JobInstance stoppedJobInstance = new JobInstance();
         stoppedJobInstance.setId(jobInstance.getId());
@@ -246,7 +246,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void stopJobs(List<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
-            throw new PlinkMessageException("idList is empty");
+            throw new FlinkPlusMessageException("idList is empty");
         }
         idList.forEach(this::stopJob);
     }
@@ -262,7 +262,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void reStartJobs(List<Long> idList) {
         if (CollectionUtils.isEmpty(idList)) {
-            throw new PlinkMessageException("idList is empty");
+            throw new FlinkPlusMessageException("idList is empty");
         }
         idList.forEach(this::reStartJob);
     }

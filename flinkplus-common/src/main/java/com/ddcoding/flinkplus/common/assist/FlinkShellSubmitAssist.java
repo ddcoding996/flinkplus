@@ -7,7 +7,7 @@ import com.ddcoding.flinkplus.common.util.FileUtil;
 import com.ddcoding.flinkplus.model.common.FlinkSubmitOptions;
 import com.ddcoding.flinkplus.model.dto.JobInstanceDTO;
 import com.ddcoding.flinkplus.model.enums.JobTypeEnum;
-import com.ddcoding.flinkplus.model.exception.PlinkMessageException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusMessageException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class FlinkShellSubmitAssist {
         //執行提交，本质还是执行shell命令
         int exitCode = syncExecShellCommand(command);
         if (exitCode != 0) {
-            throw new PlinkMessageException("submit job failed! exitCode is " + exitCode);
+            throw new FlinkPlusMessageException("submit job failed! exitCode is " + exitCode);
         }
         String log = FileUtil.readFileToString(logFile);
         Matcher matcher = compile.matcher(log);

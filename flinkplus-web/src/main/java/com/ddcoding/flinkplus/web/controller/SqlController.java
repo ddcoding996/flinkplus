@@ -2,7 +2,7 @@ package com.ddcoding.flinkplus.web.controller;
 
 import com.ddcoding.flinkplus.model.resp.Result;
 import com.ddcoding.flinkplus.model.resp.ResultCode;
-import com.ddcoding.flinkplus.service.PlinkSqlService;
+import com.ddcoding.flinkplus.service.FlinkSqlService;
 import com.ddcoding.flinkplus.sql.model.SqlDebugConfig;
 import com.ddcoding.flinkplus.sql.model.sqlparse.SqlParseInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/sql")
 public class SqlController {
     @Autowired
-    private PlinkSqlService plinkSqlService;
+    private FlinkSqlService plinkSqlService;
 
 
     /**

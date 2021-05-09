@@ -2,7 +2,7 @@ package com.ddcoding.flinkplus.http.impl;
 
 import com.ddcoding.flinkplus.common.util.HadoopConfigUtil;
 import com.ddcoding.flinkplus.http.YarnClientRpcService;
-import com.ddcoding.flinkplus.model.exception.PlinkException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.util.Preconditions;
@@ -33,17 +33,17 @@ public class YarnClientRpcServiceImpl implements YarnClientRpcService {
     private YarnClient reusableYarnClient;
 
     @Override
-    public void killApplication(String appId) throws PlinkException {
+    public void killApplication(String appId) throws FlinkPlusException {
         try {
             YarnClient yarnClient = getReusableYarnClient();
             yarnClient.killApplication(ConverterUtils.toApplicationId(appId));
         } catch (Exception e) {
-            throw new PlinkException(e);
+            throw new FlinkPlusException(e);
         }
     }
 
     @Override
-    public YarnApplicationState getYarnApplicationState(String appId) throws PlinkException {
+    public YarnApplicationState getYarnApplicationState(String appId) throws FlinkPlusException {
         return getYarnApplicationState(HadoopConfigUtil.getHadoopHome(), appId);
     }
 
@@ -61,7 +61,7 @@ public class YarnClientRpcServiceImpl implements YarnClientRpcService {
         return null;
     }
 
-    private YarnClient getYarnClient() throws PlinkException, IOException {
+    private YarnClient getYarnClient() throws FlinkPlusException, IOException {
         YarnClient yarnClient = YarnClient.createYarnClient();
         Configuration config = HadoopConfigUtil.getConfiguration();
         if (StringUtils.isNotBlank(kerberosKeytab) && StringUtils.isNotBlank(kerberosPrincipal)) {
@@ -73,7 +73,7 @@ public class YarnClientRpcServiceImpl implements YarnClientRpcService {
         return yarnClient;
     }
 
-    private synchronized YarnClient getReusableYarnClient() throws PlinkException, IOException {
+    private synchronized YarnClient getReusableYarnClient() throws FlinkPlusException, IOException {
         if (reusableYarnClient == null || !reusableYarnClient.isInState(STATE.STARTED)) {
             reusableYarnClient = getYarnClient();
         }

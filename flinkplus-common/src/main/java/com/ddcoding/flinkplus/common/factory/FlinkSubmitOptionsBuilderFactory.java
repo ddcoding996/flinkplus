@@ -4,7 +4,7 @@ import com.ddcoding.flinkplus.common.builder.FlinkJarSubmitOptionsBuilder;
 import com.ddcoding.flinkplus.common.builder.FlinkSqlSubmitOptionsBuilder;
 import com.ddcoding.flinkplus.common.builder.FlinkSubmitOptionsBuilder;
 import com.ddcoding.flinkplus.model.enums.JobTypeEnum;
-import com.ddcoding.flinkplus.model.exception.PlinkMessageException;
+import com.ddcoding.flinkplus.model.exception.FlinkPlusMessageException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +25,6 @@ public class FlinkSubmitOptionsBuilderFactory {
         if (builderMap.containsKey(jobTypeEnum)) {
             return builderMap.get(jobTypeEnum);
         }
-        throw new PlinkMessageException(jobTypeEnum + " not support");
+        throw new FlinkPlusMessageException(jobTypeEnum + " not support");
     }
 }
